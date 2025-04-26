@@ -73,9 +73,6 @@ Then('I should be redirected to the dashboard page', async () => {
 });
 
 
-const testEmail = 'testuser@example.com'; // Replace with your actual test email
-const testPassword = 'Test@1234';         // Replace with your actual test password
-
 Given('I am logged in to SimplyBook.me', async () => {
     browser = await chromium.launch({ headless: false });
     const context = await browser.newContext();
@@ -167,7 +164,6 @@ Then('the total price should be updated with the discount', async () => {
 });
 
 
-const bookingUrl = 'https://yourcompany.simplybook.me/v2/'; // Replace this with actual booking site
 
 Given('I am on the checkout page after selecting a service', async () => {
     browser = await chromium.launch({ headless: false });
@@ -229,7 +225,6 @@ Then('the payment should appear in the booking history', async () => {
     await browser.close();
 });
 
-const bookingUrl = 'https://yourcompany.simplybook.me/v2/'; // Replace with your business booking site
 
 Given('I have an existing booking', async () => {
     browser = await chromium.launch({ headless: false });
@@ -287,8 +282,6 @@ Then('the updated booking details should be reflected', async () => {
 
     await browser.close();
 });
-
-const bookingUrl = 'https://yourcompany.simplybook.me/v2/'; // Replace with your site
 
 Given('I have a confirmed booking', async () => {
     browser = await chromium.launch({ headless: false });

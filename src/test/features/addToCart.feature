@@ -11,8 +11,8 @@ Feature: Add products to cart
     Then I should see a success message confirming account creation
 
 
-@login
-Feature: User Login on SimplyBook.me
+  @login
+  # User Login on SimplyBook.me
 
   Scenario: Successful login with valid credentials
     Given I have an existing SimplyBook.me account
@@ -20,9 +20,8 @@ Feature: User Login on SimplyBook.me
     Then I should be redirected to the dashboard page
 
 
-@bookaservice
-Feature: Book a Service on SimplyBook.me
-
+  @bookaservice
+  # Book a Service on SimplyBook.me
   Scenario: Booking a service with a valid time slot
     Given I am logged in to SimplyBook.me
     When I navigate to the booking page
@@ -32,26 +31,24 @@ Feature: Book a Service on SimplyBook.me
     And the booking should appear in my account history
 
 
-@discountCode
-Feature: Apply a Discount Code on SimplyBook.me
-
+  @discountCode
+  # Apply a Discount Code on SimplyBook.me
   Scenario: Applying a valid discount code at checkout
     Given I am on the booking page and have selected a service
     When I apply a valid discount code
     Then the total price should be updated with the discount
 
 
-@makePayment
-Feature: Make a Payment on SimplyBook.me
-
+  @makePayment
+  # Make a Payment on SimplyBook.me
   Scenario: Completing a booking with payment
     Given I am on the checkout page after selecting a service
     When I choose a payment method and complete the transaction
     Then I should see a payment confirmation message
     And the payment should appear in the booking history
 
-@modifyBooking
-Feature: Modify an existing booking on SimplyBook.me
+  @modifyBooking
+  # Modify an existing booking on SimplyBook.me
 
   Scenario: Changing the appointment time
     Given I have an existing booking
@@ -60,8 +57,8 @@ Feature: Modify an existing booking on SimplyBook.me
     Then the updated booking details should be reflected
 
 
-@cancelBooking
-Feature: Cancel a booking and verify refund on SimplyBook.me
+  @cancelBooking
+  # Cancel a booking and verify refund on SimplyBook.me
 
   Scenario: Cancelling a confirmed booking
     Given I have a confirmed booking
@@ -71,8 +68,8 @@ Feature: Cancel a booking and verify refund on SimplyBook.me
     And the booking should no longer appear in my booking history
 
 
-@logoutSystem
-Feature: Logout of SimplyBook.me system
+  @logoutSystem
+  # Logout of SimplyBook.me system
 
   Scenario: Logging out after booking activities
     Given I am logged into my SimplyBook.me account
