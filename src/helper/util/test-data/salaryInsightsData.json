@@ -1,0 +1,35 @@
+{
+  "testScenarios": [
+    {
+      "jobRole": "Accountant",
+      "country": "Brazil",
+      "expectedCurrency": "BRL",
+      "description": "Accountant role in Brazil"
+    },
+    {
+      "jobRole": "QA Engineer",
+      "country": "Canada",
+      "expectedCurrency": "CAD",
+      "description": "QA Engineer role in Canada"
+    },
+    {
+      "jobRole": "Software Engineer",
+      "country": "Japan",
+      "expectedCurrency": "JPY",
+      "description": "Software Engineer role in Japan"
+    }
+  ],
+  "url": "https://growth.deel.training/dev/salary-insights",
+  "timeouts": {
+    "pageLoad": 30000,
+    "elementWait": 10000,
+    "searchWait": 5000
+  },
+  "selectors": {
+    "jobRoleInput": "input[placeholder*='job' i], input[placeholder*='role' i], input[placeholder*='position' i]",
+    "countryInput": "input[placeholder*='country' i], input[placeholder*='location' i], select",
+    "searchButton": "button[type='submit'], button:has-text('Search'), button:has-text('Find')",
+    "salaryContent": "text=/salary|compensation|pay|earnings/i",
+    "insightsContent": "text=/insights|data|information|details/i"
+  }
+} 

@@ -1,70 +1,194 @@
-# Playwright (TS binding) + Cucumber (BDD)
+# Salary Insights Automated Tests
 
-Cucumber is a popular behavior-driven development (BDD) tool that allows developers and stakeholders to collaborate on defining and testing application requirements in a human-readable format. 
-TypeScript is a powerful superset of JavaScript that adds optional static typing, making it easier to catch errors before runtime. By combining these two tools, we can create more reliable and maintainable tests.
+This project contains automated tests for the Deel Training Salary Insights page using Playwright with Cucumber and TypeScript.
 
-## Features
+## Test Overview
 
-1. Awesome report with screenshots, videos & logs
-2. Execute tests on multiple environments 
-3. Parallel execution
-4. Rerun only failed features
-5. Retry failed tests on CI
-6. Github Actions integrated with downloadable report
-7. Page object model
+The automated tests cover the following scenarios for the URL: https://growth.deel.training/dev/salary-insights
 
-## Sample report
-![image](https://github.com/ortoniKC/Playwright_Cucumber_TS/assets/58769833/da2d9f5a-85e7-4695-8ce2-3378b692afc4)
+### Test Scenarios
+1. **Accountant, Brazil** - Search for Accountant role in Brazil and verify salary insights
+2. **QA Engineer, Canada** - Search for QA Engineer role in Canada and verify salary insights  
+3. **Software Engineer, Japan** - Search for Software Engineer role in Japan and verify salary insights
 
+## Prerequisites
 
-## Project structure
+- Node.js (version 16 or higher)
+- npm (comes with Node.js)
 
-- .github -> yml file to execute the tests in GitHub Actions
-- src -> Contains all the features & Typescript code
-- test-results -> Contains all the reports related file
+## Installation
 
-## Reports
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Love_Admin
+   ```
 
-1. [Mutilple Cucumber Report](https://github.com/WasiqB/multiple-cucumber-html-reporter)
-2. Default Cucumber report
-3. [Logs](https://www.npmjs.com/package/winston)
-4. Screenshots of failure
-5. Test videos of failure
-6. Trace of failure
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Get Started
+3. **Install Playwright browsers**
+   ```bash
+   npx playwright install
+   ```
 
-### Setup:
+## Running the Tests
 
-1. Clone or download the project
-2. Extract and open in the VS-Code
-3. `npm i` to install the dependencies
-4. `npx playwright install` to install the browsers
-5. `npm run test` to execute the tests
-6. To run a particular test change  
-```
-  paths: [
-            "src/test/features/featurename.feature"
-         ] 
-```
-7. Use tags to run a specific or collection of specs
-```
-npm run test --TAGS="@test or @add"
+### Run All Tests
+```bash
+npm test
 ```
 
-### Folder structure
-0. `src\pages` -> All the page (UI screen)
-1. `src\test\features` -> write your features here
-2. `src\test\steps` -> Your step definitions goes here
-3. `src\hooks\hooks.ts` -> Browser setup and teardown logic
-4. `src\hooks\pageFixture.ts` -> Simple way to share the page objects to steps
-5. `src\helper\env` -> Multiple environments are handled
-6. `src\helper\types` -> To get environment code suggestions
-7. `src\helper\report` -> To generate the report
-8. `config/cucumber.js` -> One file to do all the magic
-9. `package.json` -> Contains all the dependencies
-10. `src\helper\auth` -> Storage state (Auth file)
-11. `src\helper\util` -> Read test data from json & logger
+### Run Only Salary Insights Tests
+```bash
+npm run test -- --tags @salaryInsights
+```
 
+### Run Tests in Debug Mode
+```bash
+npm run debug
+```
 
-# setting.json of vs code
+### Run Failed Tests Only
+```bash
+npm run test:failed
+```
+
+## Test Reports
+
+After running the tests, you can find:
+- **HTML Reports**: Generated in the `test-results/` directory
+- **Screenshots**: Captured during test execution in `test-results/screenshots/`
+- **Videos**: Recorded test executions in `test-results/videos/`
+- **Logs**: Detailed execution logs in `test-results/logs/`
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   └── salaryInsightsPage.ts      # Page Object for Salary Insights
+├── test/
+│   ├── features/
+│   │   └── salaryInsights.feature # Cucumber feature file
+│   └── steps/
+│       └── salaryInsightsSteps.ts # Step definitions
+├── helper/
+│   ├── browsers/
+│   │   └── browserManager.ts      # Browser management
+│   ├── report/
+│   │   ├── init.ts               # Report initialization
+│   │   └── report.ts             # Report generation
+│   └── util/
+│       └── logger.ts             # Logging utilities
+└── hooks/
+    ├── hooks.ts                  # Cucumber hooks
+    └── pageFixture.ts            # Page fixture setup
+```
+
+## Configuration
+
+### Environment Configuration
+- Tests run against the production environment by default
+- Environment can be changed by modifying the `ENV` variable in package.json scripts
+
+### Browser Configuration
+- Tests run in non-headless mode by default for visibility
+- Browser settings can be modified in `src/helper/browsers/browserManager.ts`
+
+### Timeout Configuration
+- Default timeout is set to 120 seconds (60 * 1000 * 2)
+- Can be adjusted in the step definition files
+
+## Test Features
+
+### Page Object Model
+- Uses Page Object Model pattern for better maintainability
+- Encapsulates page interactions in `SalaryInsightsPage` class
+- Flexible selectors to handle different UI patterns
+
+### Robust Element Selection
+- Multiple fallback selectors for form inputs
+- Handles different placeholder text patterns
+- Supports various button text variations
+
+### Comprehensive Validation
+- Verifies salary insights are displayed
+- Validates data relevance to searched job role and country
+- Checks for salary-related content and currency symbols
+
+### Screenshot Capture
+- Automatically captures screenshots for each test scenario
+- Helps with debugging and verification
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Browser not found**
+   ```bash
+   npx playwright install
+   ```
+
+2. **Tests failing due to timing**
+   - Increase timeout values in step definitions
+   - Add additional wait conditions
+
+3. **Element not found**
+   - Check if the page structure has changed
+   - Update selectors in `salaryInsightsPage.ts`
+
+### Debug Mode
+Run tests in debug mode to see the browser in action:
+```bash
+npm run debug
+```
+
+## Additional Improvements
+
+The following improvements can be made to enhance the test suite:
+
+1. **Data-Driven Testing**
+   - Add more test data combinations
+   - Support for external data sources (CSV, JSON)
+
+2. **API Testing**
+   - Add API tests for backend validation
+   - Mock external dependencies
+
+3. **Performance Testing**
+   - Add performance benchmarks
+   - Load testing scenarios
+
+4. **Cross-Browser Testing**
+   - Extend to multiple browsers (Chrome, Firefox, Safari)
+   - Mobile browser testing
+
+5. **Visual Regression Testing**
+   - Add visual comparison tests
+   - Screenshot comparison with baseline images
+
+6. **Accessibility Testing**
+   - Add accessibility compliance checks
+   - Screen reader compatibility tests
+
+7. **Security Testing**
+   - Add security vulnerability checks
+   - Input validation testing
+
+8. **CI/CD Integration**
+   - GitHub Actions workflow
+   - Automated deployment pipeline
+
+## Contributing
+
+1. Follow the existing code structure
+2. Add appropriate comments and documentation
+3. Ensure all tests pass before submitting
+4. Update the README for any new features
+
+## License
+
+This project is licensed under the ISC License.

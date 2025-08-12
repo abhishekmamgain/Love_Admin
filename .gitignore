@@ -2,3 +2,4 @@ node_modules/
 cucumber-report.html
 cucumber-report.json
 @rerun.txt
+test-results/
