@@ -1,0 +1,24 @@
+{
+    "files.associations": {
+        "*.feature": "gherkin"
+    },
+    "cucumber.features": [
+        "src/test/features/**/*.feature"
+    ],
+    "cucumber.glue": [
+        "src/test/steps/**/*.ts"
+    ],
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    "typescript.suggest.autoImports": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[gherkin]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    }
+} 

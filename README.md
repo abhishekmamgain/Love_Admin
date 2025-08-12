@@ -43,7 +43,7 @@ npm test
 
 ### Run Only Salary Insights Tests
 ```bash
-npm run test -- --tags @salaryInsights
+npm run test:salary-insights
 ```
 
 ### Run Tests in Debug Mode

@@ -1,20 +1,14 @@
 import { Given, When, Then, setDefaultTimeout } from "@cucumber/cucumber";
-import { chromium, Browser, Page } from '@playwright/test';
 import { expect } from "@playwright/test";
 import { fixture } from "../../hooks/pageFixture";
 import { SalaryInsightsPage } from "../../pages/salaryInsightsPage";
 
 setDefaultTimeout(60 * 1000 * 2);
 
-let browser: Browser;
-let page: Page;
 let salaryInsightsPage: SalaryInsightsPage;
 
 Given('I navigate to the salary insights page', async () => {
-    browser = await chromium.launch({ headless: false });
-    const context = await browser.newContext();
-    page = await context.newPage();
-    salaryInsightsPage = new SalaryInsightsPage(page);
+    salaryInsightsPage = new SalaryInsightsPage(fixture.page);
     await salaryInsightsPage.navigateTo();
 });
 
@@ -35,7 +29,4 @@ Then('the salary data should be relevant to {string} and {string}', async (jobRo
 
     // Take a screenshot for verification
     await salaryInsightsPage.takeScreenshot(`salary-insights-${jobRole}-${country}`);
-
-    // Close browser after each test
-    await browser.close();
 }); 

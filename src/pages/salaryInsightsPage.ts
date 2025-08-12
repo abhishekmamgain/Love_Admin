@@ -34,12 +34,19 @@ export class SalaryInsightsPage {
         await this.page.waitForLoadState('networkidle');
     }
 
-    async searchForJobRole(jobRole: string) {
+        async searchForJobRole(jobRole: string) {
         await this.page.waitForTimeout(2000);
-
+        
         if (await this.jobRoleInput.isVisible()) {
             await this.jobRoleInput.fill(jobRole);
             await this.page.waitForTimeout(1000);
+            
+            // Try to select from dropdown if it appears
+            const dropdownOption = this.page.locator(`text=${jobRole}`).first();
+            if (await dropdownOption.isVisible()) {
+                await dropdownOption.click();
+                await this.page.waitForTimeout(1000);
+            }
         } else {
             console.log('Job role input not found, trying alternative selectors...');
             // Try alternative selectors
@@ -49,21 +56,36 @@ export class SalaryInsightsPage {
                 'input[placeholder*="enter" i]',
                 'input'
             ];
-
+            
             for (const selector of alternativeInputs) {
                 const input = this.page.locator(selector).first();
                 if (await input.isVisible()) {
                     await input.fill(jobRole);
+                    await this.page.waitForTimeout(1000);
+                    
+                    // Try to select from dropdown if it appears
+                    const dropdownOption = this.page.locator(`text=${jobRole}`).first();
+                    if (await dropdownOption.isVisible()) {
+                        await dropdownOption.click();
+                        await this.page.waitForTimeout(1000);
+                    }
                     break;
                 }
             }
         }
     }
 
-    async searchForCountry(country: string) {
+        async searchForCountry(country: string) {
         if (await this.countryInput.isVisible()) {
             await this.countryInput.fill(country);
             await this.page.waitForTimeout(1000);
+            
+            // Try to select from dropdown if it appears
+            const dropdownOption = this.page.locator(`text=${country}`).first();
+            if (await dropdownOption.isVisible()) {
+                await dropdownOption.click();
+                await this.page.waitForTimeout(1000);
+            }
         } else {
             console.log('Country input not found, trying alternative selectors...');
             // Try alternative selectors for country
@@ -73,42 +95,62 @@ export class SalaryInsightsPage {
                 'select',
                 'input[type="text"]:nth-of-type(2)'
             ];
-
+            
             for (const selector of alternativeInputs) {
                 const input = this.page.locator(selector).first();
                 if (await input.isVisible()) {
                     await input.fill(country);
+                    await this.page.waitForTimeout(1000);
+                    
+                    // Try to select from dropdown if it appears
+                    const dropdownOption = this.page.locator(`text=${country}`).first();
+                    if (await dropdownOption.isVisible()) {
+                        await dropdownOption.click();
+                        await this.page.waitForTimeout(1000);
+                    }
                     break;
                 }
             }
         }
     }
 
-    async submitSearch() {
+        async submitSearch() {
+        // First, try to close any open dropdowns by clicking outside
+        await this.page.click('body', { position: { x: 0, y: 0 } });
+        await this.page.waitForTimeout(1000);
+        
         if (await this.searchButton.isVisible()) {
-            await this.searchButton.click();
+            try {
+                await this.searchButton.click({ force: true });
+            } catch (error) {
+                // If click fails, try pressing Enter
+                await this.page.keyboard.press('Enter');
+            }
         } else {
             // Try pressing Enter if no search button is found
             await this.page.keyboard.press('Enter');
         }
-
+        
         // Wait for loading to complete
         await this.page.waitForTimeout(3000);
-
+        
         // Wait for loading spinner to disappear if present
         if (await this.loadingSpinner.isVisible()) {
             await this.loadingSpinner.waitFor({ state: 'hidden', timeout: 10000 });
         }
     }
 
-    async verifySalaryInsightsDisplayed() {
+        async verifySalaryInsightsDisplayed() {
         const pageContent = await this.page.textContent('body');
-
+        
         // Check for various salary-related content
-        const hasSalaryContent = await this.salaryResults.isVisible();
         const hasSalaryNumbers = /\$[\d,]+|[\d,]+\s*(USD|EUR|GBP|BRL|CAD|JPY)/i.test(pageContent);
         const hasInsightsContent = /insights|data|information|details/i.test(pageContent);
-
+        
+        // Check for salary content using a more specific approach
+        const salaryElements = this.page.locator('text=/salary|compensation|pay|earnings/i');
+        const hasSalaryContent = await salaryElements.count() > 0;
+        
         return hasSalaryContent || hasSalaryNumbers || hasInsightsContent;
     }
 

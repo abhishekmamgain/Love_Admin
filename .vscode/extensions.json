@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "cucumberopen.cucumber-official",
+        "ms-vscode.vscode-typescript-next",
+        "ms-playwright.playwright",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode"
+    ]
+} 
